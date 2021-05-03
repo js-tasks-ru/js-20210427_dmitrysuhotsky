@@ -11,3 +11,4 @@ export function sortStrings(arr, param = 'asc') {
   }
   return arrayStrings.sort((a, b) => a.localeCompare(b, 'ru-RU-u-kf-upper')).reverse()
 }
+ 
