@@ -4,20 +4,21 @@
  * @returns {function} - function-getter which allow get value from object by set path
  */
 export function createGetter(path) {
-  let arrayPath = path.split('.')
+  const arrayPath = path.split('.');
   
   return function(obj) {
+    let i = 0;
     
-    function recurs(obj, key) {
-      if (typeof obj[key] === 'undefined') return undefined;
+    function getPropertyObject(obj, key) {
+      if (typeof obj[key] === 'undefined') return;
       if (typeof obj[key] === 'string' || typeof obj[key] === 'number') {
-        return obj[key]
+        return obj[key];
       } else {
-        arrayPath.shift()
-        return recurs(obj[key], arrayPath[0])
+        i++;
+        return getPropertyObject(obj[key], arrayPath[i])
       }
       
     }
-    return recurs(obj, arrayPath[0])
-  } 
+    return getPropertyObject(obj, arrayPath[i]);
+  }; 
 }
