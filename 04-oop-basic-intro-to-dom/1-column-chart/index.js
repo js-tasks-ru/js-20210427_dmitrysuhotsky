@@ -1,6 +1,6 @@
 export default class ColumnChart {
   chartHeight = 50;
-  constructor({ data = [], label = '', value = '', link = '', formatHeading = value => value }) {
+  constructor({ data = [], label = '', value = '', link = '', formatHeading = value => value } = {}) {
     this.data = data;
     this.label = label;
     this.value = value;
