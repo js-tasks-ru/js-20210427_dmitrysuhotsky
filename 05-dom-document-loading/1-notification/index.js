@@ -1,11 +1,11 @@
-let timerID = null;
 
 export default class NotificationMessage {
+  timerID = null;
+  element
   constructor(text = "", {duration = 1000, type = "success"} = {}) {
     this.text = text;
     this.duration = duration;
     this.type = type;
-    this.element = null;
     this.render();
   }
 
@@ -34,8 +34,8 @@ export default class NotificationMessage {
       wrapper.innerHTML = this.element;
       this.element = wrapper;
     }
-    if (timerID) {
-      clearTimeout(timerID);
+    if (NotificationMessage.timerID) {
+      clearTimeout(NotificationMessage.timerID);
       document.querySelector('.notification').remove();
     } 
     document.body.append(this.element);
@@ -43,10 +43,9 @@ export default class NotificationMessage {
   }
 
   remove() {
-    timerID = setTimeout(() => {
-      document.querySelector('.notification').remove();
-      this.element = null;
-      timerID = null;
+    NotificationMessage.timerID = setTimeout(() => {
+      this.element.remove();
+      NotificationMessage.timerID = null;
     }, this.duration);
   }
 
