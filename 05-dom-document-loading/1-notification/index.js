@@ -1,12 +1,10 @@
 
 export default class NotificationMessage {
-  timerID = null;
-  element
+  static alert
   constructor(text = "", {duration = 1000, type = "success"} = {}) {
     this.text = text;
     this.duration = duration;
     this.type = type;
-    this.render();
   }
 
   get templateAlert() {
@@ -24,32 +22,22 @@ export default class NotificationMessage {
   }
 
   render() {
-    const createElem = document.createElement('div');
-    createElem.innerHTML = this.templateAlert;
-    this.element = createElem.firstElementChild;
+    this.element = document.createElement('div');
+    this.element.innerHTML = this.templateAlert;
+    NotificationMessage.alert = this.element;
+    return NotificationMessage.alert;
   }
 
-  show(wrapper) {
-    if (wrapper) {
-      wrapper.innerHTML = this.element;
-      this.element = wrapper;
-    }
-    if (NotificationMessage.timerID) {
-      clearTimeout(NotificationMessage.timerID);
-      document.querySelector('.notification').remove();
-    } 
-    document.body.append(this.element);
-    this.remove();
+  show(wrapper = document.body) {
+    if (NotificationMessage.alert) NotificationMessage.alert.remove();
+    wrapper.append(this.render());
+    setTimeout(() => this.remove(), this.duration)
   }
 
   remove() {
-    NotificationMessage.timerID = setTimeout(() => {
-      this.element.remove();
-      NotificationMessage.timerID = null;
-    }, this.duration);
+    this.element.remove();
   }
-
   destroy() {
-    this.element = null;
+    this.remove();
   }
 }
